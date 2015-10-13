@@ -5,10 +5,10 @@ class  Note(models.Model):
 	title=models.CharField(max_length=60)
 	color=models.CharField(max_length=10)
 	author_id=models.IntegerField()
-	noteType=models.IntegerField(max_length=10)
+	noteType=models.IntegerField()
 	createTime=models.DateTimeField()
 	publish=models.DateTimeField()
-	content=models.CharField()
+	content=models.TextField()
 
 class User(models.Model):
 	username=models.CharField(max_length=40)
