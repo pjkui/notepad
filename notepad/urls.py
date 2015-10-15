@@ -16,6 +16,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+# from note import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    #router to index
+    url(r'^note/','note.views.index', name='index'),
 ]
