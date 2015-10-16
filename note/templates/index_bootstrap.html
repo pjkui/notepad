@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>
+		this is form test
+	</title>
+</head>
+<body>
+
+
+{% load bootstrap3 %}
+{# Load css and Javascript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{# display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
+{# display a form #}
+
+<form action="" method="post" class="form">
+{% csrf_token %}
+{% bootstrap_form form %}
+
+{% buttons %}
+	<button type="submit" class="btn btn-primary">
+		{% bootstrap_icon "star" %} Submit
+	</button>
+{% endbuttons %}
+
+{# <input type = "submit" value = "提交"> #}
+</form>
+
+
+</body>
+</html>
