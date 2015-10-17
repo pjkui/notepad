@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',#support admin doc
     'bootstrap3',#add bootstrap3 support
     'note'
 )
@@ -102,3 +103,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'note/static/')
+# static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

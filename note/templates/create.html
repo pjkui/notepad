@@ -1,0 +1,77 @@
+{% load  staticfiles %}
+{% load bootstrap3 %}
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Form get textarea value - Editor.md examples</title>
+        <link rel="stylesheet" href= {% static "css/style.css" %} />
+        <link rel="stylesheet" href={% static "css/editormd.css" %} />
+        <link rel="shortcut icon" href={% static "logo.png" %} type="image/x-icon" />
+    </head>
+    <body>
+
+        <div id="layout">
+            {% bootstrap_messages %}
+            <form method="post" action={% url "create" %}>
+                {% csrf_token %}
+                <div  class="form-inline">
+                        {% bootstrap_form_errors form type='non_fields'  %}
+                        {% bootstrap_field form.title show_label=True layout="horizontal" form_group_class='form-group col-md-6' label_class='col-md-1 col-md-offset-1' field_class='col-md-10' size='md' %}
+                        {% bootstrap_field form.noteType show_label=False form_group_class='form-group col-md-1'   size='md' %}
+                        {% bootstrap_field form.color show_label=False form_group_class='form-group col-md-2' field_class='col-md-12' size='md' %}
+                        {# {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" %} #}
+
+                        {# {% buttons submit='OK' button_class="btn btn-info" reset="Cancel" %}{% endbuttons %} #}
+                        <input type="submit" name="submit" value="发表" style="padding: 5px;"/> 
+                </div> 
+
+                <div id="test-editormd">
+                    {{form.content}}
+                </div>
+                              
+            </form>
+        </div>        
+        <script src= {% static "examples/js/jquery.min.js" %}></script>
+        <script src={% static "editormd.js" %}></script>   
+        <script type="text/javascript">
+            $(function() {
+                $.get("/static/examples/test.md", function(md) {
+                    var testEditor = editormd("test-editormd", {
+                        width  : "90%",
+                        height : 640,
+                        path   : "{% static 'lib/'' %}",
+                        appendMarkdown : md,
+                        saveHTMLToTextarea : true,
+                        codeFold : true,
+                        //syncScrolling : false,
+                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                        searchReplace : true,
+                        //watch : false,                // 关闭实时预览
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                        //toolbar  : false,             //关闭工具栏
+                        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                        emoji : true,
+                        taskList : true,
+                        tocm            : true,         // Using [TOCM]
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             // 开启流程图支持，默认关闭
+                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "./image/upload",
+                    });
+                });
+
+            });
+        </script>
+    </body>
+</html>

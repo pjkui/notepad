@@ -15,10 +15,15 @@ class AddForm(forms.Form):
 	# 	widgets = {
 	# 		'name': Textarea(attrs={'cols': 80, 'rows': 20}),
 	# 	}
+
+CHOICES =((1,'Public'),(2,'Private'))
+
 class NoteForm(forms.ModelForm):
 	class Meta:
 		model = Note
 		fields = ['title','color','noteType','content']
 		widgets={
 			'content':forms.Textarea(),
+			'noteType': forms.Select(choices=CHOICES),
+			'title':forms.TextInput(attrs={"style":"width:100%;"})	
 		}

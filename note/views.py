@@ -56,7 +56,8 @@ def create(request):
 
 			try:
 				note.save()
-				return HttpResponse("data is valid and we store it in the database. The id of this note is:"+str(note.id))
+				return HttpResponse(note.content)
+				# return HttpResponse("data is valid and we store it in the database. The id of this note is:"+str(note.id))
 			except Exception, e:
 				return HttpResponse("data is valid and we store it in the database failed. ")
 			finally:
@@ -66,5 +67,8 @@ def create(request):
 			return HttpResponse("data is invalid.")
 	else:
 		form = NoteForm()
-		return  render(request,'index_bootstrap.html',{'form':form})
+		return  render(request,'create.html',{'form':form})
 
+
+def md(request):
+	return render(request,'md.html')
