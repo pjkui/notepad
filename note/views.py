@@ -1,12 +1,14 @@
 # coding: utf-8
 from django.shortcuts import render
+from django.utils import timezone
 
 # Create your views here.
 from django.http import HttpResponse
 
 #import the add note form
 
-from forms import AddForm
+from note.forms import AddForm,NoteForm
+from note.models import Note
 
 def index(request):
 		if request.method == 'POST':
@@ -32,4 +34,37 @@ def index(request):
 			#when user just visit , not post data to the site
 			form = AddForm()
 			return  render(request,'index_bootstrap.html',{'form':form})
+
+def create(request):
+	if(request.method == 'POST'):
+		note=Note()
+		form = NoteForm(request.POST,instance=note)
+		if form.is_valid():
+			# if note get the authorID then set the ID is -1. because at the first step. we didn't hava build UC system. 
+			if note.authorID == None:
+				note.authorID = -1
+
+			# if user forget to set note's type. we set it as default value 0
+			if note.noteType == None:
+				note.noteType = 0
+
+			if note.color == None:
+				note.color = "#000000"
+
+			# set createtime
+			note.createTime=timezone.now()
+
+			try:
+				note.save()
+				return HttpResponse("data is valid and we store it in the database. The id of this note is:"+str(note.id))
+			except Exception, e:
+				return HttpResponse("data is valid and we store it in the database failed. ")
+			finally:
+				pass
+			return HttpResponse("data is valid.")
+		else:
+			return HttpResponse("data is invalid.")
+	else:
+		form = NoteForm()
+		return  render(request,'index_bootstrap.html',{'form':form})
 

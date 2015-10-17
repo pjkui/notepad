@@ -20,5 +20,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     #router to index
-    url(r'^note/','note.views.index', name='index'),
+    url(r'^$','note.views.index', name='add'),
+    url(r'^create/$','note.views.create',name='create'),
 ]

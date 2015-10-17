@@ -4,10 +4,9 @@ from django.db import models
 class  Note(models.Model):
 	title=models.CharField(max_length=60)
 	color=models.CharField(max_length=10)
-	author_id=models.IntegerField()
+	authorID=models.IntegerField()
 	noteType=models.IntegerField()
 	createTime=models.DateTimeField()
-	publish=models.DateTimeField()
 	content=models.TextField()
 	def __unicode__(self):
 		return self.title

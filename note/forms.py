@@ -1,5 +1,5 @@
 from django import forms
-
+from note.models import Note
 class AddForm(forms.Form):
 	# """docstring for AddNote"""
 	title = forms.CharField(max_length=40)
@@ -15,3 +15,10 @@ class AddForm(forms.Form):
 	# 	widgets = {
 	# 		'name': Textarea(attrs={'cols': 80, 'rows': 20}),
 	# 	}
+class NoteForm(forms.ModelForm):
+	class Meta:
+		model = Note
+		fields = ['title','color','noteType','content']
+		widgets={
+			'content':forms.Textarea(),
+		}
