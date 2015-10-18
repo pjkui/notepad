@@ -32,5 +32,6 @@ class NoteForm(forms.ModelForm):
         widgets = {
             'content': forms.Textarea(),
             'noteType': forms.Select(choices=CHOICES),
-            'title': forms.TextInput(attrs={"style": "width:60%;"})
+            'title': forms.TextInput(attrs={"style": "width:60%;"}),
+            'color': forms.TextInput(attrs={"style": "width:5%;"}),
         }

@@ -51,8 +51,8 @@
     <body>
         <div id="layout">
             <header>
-                <h1>{{ note.title }}</h1> 
-                <p>{{ note.createTime | safe }}</p>
+                <h1 style="color:{{note.color}};">{{ note.title |safe }}</h1> 
+                <p>发表于：{{ note.createTime | date:'Y -m -d H:m:s' }}</p>
             </header>
             
             <div id="sidebar">
