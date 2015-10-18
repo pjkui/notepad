@@ -64,7 +64,7 @@ def create(request):
 				pass
 			return HttpResponse("data is valid.")
 		else:
-			return HttpResponse("data is invalid.")
+			return render(request,'create.html',{'form':form})
 	else:
 		form = NoteForm()
 		return  render(request,'create.html',{'form':form})

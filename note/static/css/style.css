@@ -92,3 +92,12 @@ body {
 .btns button:hover, .btn:hover {
     background: #f6f6f6;
 }
+
+.errorlist{
+    display: inline;
+   padding-right: 20px;
+}
+.errorlist li{
+    margin-right: 20px;
+    display: inline;
+}

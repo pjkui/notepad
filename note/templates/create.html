@@ -1,8 +1,4 @@
 {% load  staticfiles %}
-{% load bootstrap3 %}
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 <!DOCTYPE html>
 <html lang="zh">
     <head>
@@ -13,26 +9,39 @@
         <link rel="shortcut icon" href={% static "logo.png" %} type="image/x-icon" />
     </head>
     <body>
-
         <div id="layout">
-            {% bootstrap_messages %}
             <form method="post" action={% url "create" %}>
-                {% csrf_token %}
-                <div  class="form-inline">
-                        {% bootstrap_form_errors form type='non_fields'  %}
-                        {% bootstrap_field form.title show_label=True layout="horizontal" form_group_class='form-group col-md-6' label_class='col-md-1 col-md-offset-1' field_class='col-md-10' size='md' %}
-                        {% bootstrap_field form.noteType show_label=False form_group_class='form-group col-md-1'   size='md' %}
-                        {% bootstrap_field form.color show_label=False form_group_class='form-group col-md-2' field_class='col-md-12' size='md' %}
-                        {# {% bootstrap_button "Save" button_type="submit" button_class="btn btn-primary" %} #}
+                <div width="90%" style="margin:0 auto; width:90%">
+                    {% csrf_token %}
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {# {{ form.title.errors }} #}
+                    <label>颜色 ：</label>
+                    {{ form.color }}
+                    {# {{ form.color.errors }} #}
+                    <label>笔记类型 ：</label>
+                    {{ form.noteType }}
+                    {# {{ form.noteType.errors }} #}
+                    <input type="submit" name="submit" value="发表" style="padding: 5px;"/> 
+                </div>
+                <div width="90%" style="margin:0 auto; width:90%; color:red;">
+                   
+                   
+                    {% if form.title.errors %}
+                       错误： 文章标题不能为空
+                    {% endif %}
 
-                        {# {% buttons submit='OK' button_class="btn btn-info" reset="Cancel" %}{% endbuttons %} #}
-                        <input type="submit" name="submit" value="发表" style="padding: 5px;"/> 
-                </div> 
-
+                    {% if form.color.errors %}
+                        错误： 颜色不能为空
+                    {% endif %}
+                    {# {{ form.errors}} #}
+                    {% if form.noteType.errors %}
+                        错误： 文章类型不能为空
+                    {% endif %}
+                </div>
                 <div id="test-editormd">
                     {{form.content}}
                 </div>
-                              
             </form>
         </div>        
         <script src= {% static "examples/js/jquery.min.js" %}></script>
@@ -56,7 +65,7 @@
                         //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
                         emoji : true,
                         taskList : true,
-                        tocm            : true,         // Using [TOCM]
+                        tocm : true,         // Using [TOCM]
                         tex : true,                   // 开启科学公式TeX语言支持，默认关闭
                         flowChart : true,             // 开启流程图支持，默认关闭
                         sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
