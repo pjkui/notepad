@@ -24,3 +24,8 @@ all the variable should avoid use underline. use hump nomenclature.
 1. support python
 2. support php
 3. support java 
+
+##add Tag
+let every note hava it owner class/tags
+
+[TODO] add a button to switch menu show or not 
