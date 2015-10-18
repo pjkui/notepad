@@ -1,3 +1,14 @@
+#如何运行
+1. 如果你没有装过python，请记得安装python。推荐是python2.7【下载地址：https://www.python.org/ftp/python/2.7.10/python-2.7.10.msi】
+2. 安装pip： 教程：https://pip.pypa.io/en/stable/installing/
+3. 安装Django： 方法：`pip install django` 这个pip是第二步安装的.如果第二步不成功，这个步骤就不会成功了。
+4. 如果第三步完成了，下载本程序源码到一个没有汉字的目录中，比如 F:\notepad
+5. 用`git clone https://github.com/pjkui/notepad.git` 或者直接打开https://github.com/pjkui/notepad/archive/master.zip 保存到你的文件夹中，一定不能有中文目录。
+6. 然后解压文件，进入notepad文件夹，然后在有manage.py的目录下，运行`python manager runserver`
+7. OK了
+
+#本源代码技术交流QQ群：196154886
+
 # notepad
 Quinn Pan's Notepad 
 Just personal project to study Django.
