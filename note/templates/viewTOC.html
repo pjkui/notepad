@@ -6,7 +6,7 @@
         <title>云笔记</title>
         <link rel="stylesheet" href= {% static "css/style.css" %} />
         <link rel="stylesheet" href={% static "css/editormd.preview.css" %} />
-        <link rel="shortcut icon" href="https://pandao.github.io/editor.md/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href={% static "logo.png" %} type="image/x-icon" />
         <style>
             body {padding: 40px;}
             
@@ -57,7 +57,7 @@
             
             <div id="sidebar">
                 <div class="btns">
-                    <button onclick="location.href='{% url "noteView" %}?id={{note.id}}&toc=false';">返回 Back</button>
+                    <button onclick="location.href='{% url "noteView" %}?id={{note.id}}&toc=false';">单列显示</button>
                 </div>
                 <h1>目录 menu</h1>
                 <div class="markdown-body editormd-preview-container" id="custom-toc-container">文章目录大纲</div>

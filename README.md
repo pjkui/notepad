@@ -29,3 +29,12 @@ all the variable should avoid use underline. use hump nomenclature.
 let every note hava it owner class/tags
 
 [TODO] add a button to switch menu show or not 
+
+#Tools
+1. IDE sublime3
+2. python 2.7
+3. pip ： install some app,framework
+4. django : 安装方法： pip install django  
+
+#todo
+美化404页面

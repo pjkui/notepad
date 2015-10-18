@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 from note.forms import AddForm, NoteForm, NOTETYPE_PRIVATE, NOTETYPE_PUBLIC
 from note.models import Note
-
+from django.http import HttpResponseRedirect
 
 def index(request):
     if request.method == 'POST':
@@ -59,10 +59,13 @@ def create(request):
 
             try:
                 note.save()
-                return HttpResponse(note.content)
+                # return redirect(reverse('note.views.view', args=['id',note.id]))
+                return HttpResponseRedirect('/view?id='+str(note.id))
+                # return HttpResponse(note.content)
                 # return HttpResponse("data is valid and we store it in the
                 # database. The id of this note is:"+str(note.id))
             except Exception, e:
+            	# return HttpResponseRedirect('/view?id='+str(note.id
                 return HttpResponse("data is valid and we store it in the database failed. ")
             finally:
                 pass
