@@ -5,36 +5,21 @@ from django.utils import timezone
 # Create your views here.
 from django.http import HttpResponse
 
+from django.views.generic.list import ListView
+
 # import the add note form
 
 from note.forms import AddForm, NoteForm, NOTETYPE_PRIVATE, NOTETYPE_PUBLIC
 from note.models import Note
 from django.http import HttpResponseRedirect
 
-def index(request):
-    if request.method == 'POST':
-        # when user post form
-        form = AddForm(request.POST)  # when form contain data
 
-        if form.is_valid():
-            # when data is valid
-
-            color = form.cleaned_data["color"]
-            title = form["title"]
-            # author_id = form.author_id
-            # noteType = form.noteType
-            # createTime = form.createTime
-            # publish = form.publish
-            # content1 = form.content_text
-            return HttpResponse(color)
-            # return HttpResponse(form["color"])
-
-        else:
-            return HttpResponse("not a valid data form ")
-    else:
-        # when user just visit , not post data to the site
-        form = AddForm()
-        return render(request, 'index_bootstrap.html', {'form': form})
+def NoteListView(request):
+    model = Note
+    def get_context_data(self, **kwargs):
+        context = super(NoteListView, self).get_context_data(**kwargs)
+        context['now'] = timezone.now()
+        return context
 
 
 def create(request):
@@ -59,13 +44,14 @@ def create(request):
 
             try:
                 note.save()
-                # return redirect(reverse('note.views.view', args=['id',note.id]))
-                return HttpResponseRedirect('/view?id='+str(note.id))
+                # return redirect(reverse('note.views.view',
+                # args=['id',note.id]))
+                return HttpResponseRedirect('/view?id=' + str(note.id))
                 # return HttpResponse(note.content)
                 # return HttpResponse("data is valid and we store it in the
                 # database. The id of this note is:"+str(note.id))
             except Exception, e:
-            	# return HttpResponseRedirect('/view?id='+str(note.id
+                # return HttpResponseRedirect('/view?id='+str(note.id
                 return HttpResponse("data is valid and we store it in the database failed. ")
             finally:
                 pass
@@ -101,3 +87,62 @@ def view(request):
         return render(request, 'view.html', {'note': note})
     # default set render to viewTOC template
     return render(request, 'viewTOC.html', {'note': note})
+
+
+def update(request):
+    # 现在这个是要进行更新文章的入口
+    # 主要的逻辑处理都在这个里面
+    # OK
+    id = request.GET.get('id', '1')
+
+    note = Note.objects.get(pk=id)
+
+    if(request.method == 'POST'):
+        # note = Note()
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            # if note get the authorID then set the ID is -1. because at the
+            # first step. we didn't hava build UC system.
+
+            # if user forget to set note's type. we set it as default value 0
+            if note.noteType == None:
+                note.noteType = 0
+
+            if note.color == None:
+                note.color = "#000000"
+
+            # set createtime
+            note.createTime = timezone.now()
+
+            try:
+                note.save()
+                # return redirect(reverse('note.views.view',
+                # args=['id',note.id]))
+                return HttpResponseRedirect('/view?id=' + str(note.id))
+                # return HttpResponse(note.content)
+                # return HttpResponse("data is valid and we store it in the
+                # database. The id of this note is:"+str(note.id))
+            except Exception, e:
+                # return HttpResponseRedirect('/view?id='+str(note.id
+                return HttpResponse("data is valid and we store it in the database failed. ")
+            finally:
+                pass
+            return HttpResponse("data is valid.")
+        else:
+            return HttpResponse("data is valid.")
+    else:
+    # 首先要获得更新文章的id，这个id要传进来的。        
+        form = NoteForm(instance=note)
+        return render(request, 'update.html', {'form': form,'id':note.id})
+    # 这个时候 基本上实现了update的进入操作，但是更新完文章，要保存。下一步要实现保存
+
+# 删除一篇文章
+def delete(request):
+    id = request.GET.get('id', '0')
+    note = get_object_or_404(Note, pk=id)
+    try:
+
+        note.delete()
+        return HttpResponse("删除成功！")
+    except:
+        return HttpResponse("删除失败！")

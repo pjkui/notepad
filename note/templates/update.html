@@ -1,0 +1,125 @@
+{% load  staticfiles %}
+{% load url from future %}
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="utf-8" />
+        <title>Form get textarea value - Editor.md examples</title>
+        <link rel="stylesheet" href= {% static "css/style.css" %} />
+        <link rel="stylesheet" href={% static "css/editormd.css" %} />
+        <link rel="shortcut icon" href={% static "logo.png" %} type="image/x-icon" />
+        <link rel="stylesheet" href="/static/kindeditor/themes/default/default.css" />
+        <script src='{% static "kindeditor/kindeditor-min.js" %}'></script>
+        <script>
+
+            KindEditor.ready(function(K) {
+                var colorpicker;
+                K('#colorpicker').bind('click', function(e) {
+                    e.stopPropagation();
+                    if (colorpicker) {
+                        colorpicker.remove();
+                        colorpicker = null;
+                        return;
+                    }
+                    var colorpickerPos = K('#colorpicker').pos();
+                    colorpicker = K.colorpicker({
+                        x : colorpickerPos.x,
+                        y : colorpickerPos.y + K('#colorpicker').height(),
+                        z : 19811214,
+                        selectedColor : 'default',
+                        noColor : '无颜色',
+                        click : function(color) {
+                            K('#id_color').val(color);
+                            document.getElementById("id_color").style.color=color;
+                            document.getElementById("id_title").style.color=color;
+                            colorpicker.remove();
+                            colorpicker = null;
+                        }
+                    });
+                });
+                K(document).click(function() {
+                    if (colorpicker) {
+                        colorpicker.remove();
+                        colorpicker = null;
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="layout">
+            <form method="post" action="{% url 'noteUpdate'%}?id={{id}}">
+                <div width="90%" style="margin:0 auto; width:90%">
+                    {% csrf_token %}
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+                    {# {{ form.title.errors }} #}
+                    <label>颜色 ：</label>
+                    {{ form.color }}
+                    <input type="button" id="colorpicker" value="设置颜色" />
+                    {# {{ form.color.errors }} #}
+                    <label>笔记类型 ：</label>
+                    {{ form.noteType }}
+                    {# {{ form.noteType.errors }} #}
+                    <input type="submit" name="submit" value="保存" style="padding: 5px;"/> 
+                </div>
+                <div width="90%" style="margin:0 auto; width:90%; color:red;">
+                   
+                   
+                    {% if form.title.errors %}
+                       错误： 文章标题不能为空
+                    {% endif %}
+
+                    {% if form.color.errors %}
+                        错误： 颜色不能为空
+                    {% endif %}
+                    {# {{ form.errors}} #}
+                    {% if form.noteType.errors %}
+                        错误： 文章类型不能为空
+                    {% endif %}
+                </div>
+                <div id="test-editormd">
+                    {{form.content}}
+                </div>
+            </form>
+        </div>        
+        <script src= {% static "examples/js/jquery.min.js" %}></script>
+        <script src={% static "editormd.js" %}></script>   
+        <script type="text/javascript">
+            $(function() {
+                $.get("/static/examples/test.md", function(md) {
+                    var testEditor = editormd("test-editormd", {
+                        width  : "90%",
+                        height : 640,
+                        path   : "{% static 'lib/'' %}",
+                        appendMarkdown : md,
+                        saveHTMLToTextarea : true,
+                        codeFold : true,
+                        //syncScrolling : false,
+                        saveHTMLToTextarea : true,    // 保存 HTML 到 Textarea
+                        searchReplace : true,
+                        //watch : false,                // 关闭实时预览
+                        htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                        //toolbar  : false,             //关闭工具栏
+                        //previewCodeHighlight : false, // 关闭预览 HTML 的代码块高亮，默认开启
+                        emoji : true,
+                        taskList : true,
+                        tocm : true,         // Using [TOCM]
+                        tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                        flowChart : true,             // 开启流程图支持，默认关闭
+                        sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                        //dialogLockScreen : false,   // 设置弹出层对话框不锁屏，全局通用，默认为true
+                        //dialogShowMask : false,     // 设置弹出层对话框显示透明遮罩层，全局通用，默认为true
+                        //dialogDraggable : false,    // 设置弹出层对话框不可拖动，全局通用，默认为true
+                        //dialogMaskOpacity : 0.4,    // 设置透明遮罩层的透明度，全局通用，默认值为0.1
+                        //dialogMaskBgColor : "#000", // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
+                        imageUpload : true,
+                        imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                        imageUploadURL : "./image/upload",
+                    });
+                });
+
+            });
+        </script>
+    </body>
+</html>

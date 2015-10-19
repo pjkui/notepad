@@ -15,16 +15,27 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.views.generic import ListView
 
-
+from note.views import NoteListView
+from note.models import Note
 # from note import views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     # router to index
-    url(r'^$', 'note.views.index', name='add'),
+    url(r'^$', ListView.as_view(
+        model=Note,
+        context_object_name="note_list",
+        template_name="note_list.html",
+        paginate_by =12
+
+    )),
+    # url(r'^$', 'note.views.NoteListView', name='add'),
     url(r'^create/$', 'note.views.create', name='create'),
     url(r'^view/', 'note.views.view', name='noteView'),
-    url(r'^md/$', 'note.views.md', name='mk'),
+    url(r'^update', 'note.views.update', name='noteUpdate'),
+    url(r'^delete', 'note.views.delete', name='noteDelete'),
 
+    url(r'^md/$', 'note.views.md', name='mk'),
 ]
