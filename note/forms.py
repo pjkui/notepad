@@ -25,7 +25,7 @@ CHOICES = ((NOTETYPE_PUBLIC, 'Public'), (NOTETYPE_PRIVATE, 'Private'))
 
 
 class NoteForm(forms.ModelForm):
-
+    tags=forms.CharField(max_length=100)
     class Meta:
         model = Note
         fields = ['title', 'color', 'noteType', 'content']

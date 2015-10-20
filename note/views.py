@@ -10,12 +10,13 @@ from django.views.generic.list import ListView
 # import the add note form
 
 from note.forms import AddForm, NoteForm, NOTETYPE_PRIVATE, NOTETYPE_PUBLIC
-from note.models import Note
+from note.models import Note, Tag
 from django.http import HttpResponseRedirect
 
 
 def NoteListView(request):
     model = Note
+
     def get_context_data(self, **kwargs):
         context = super(NoteListView, self).get_context_data(**kwargs)
         context['now'] = timezone.now()
@@ -26,6 +27,7 @@ def create(request):
     if(request.method == 'POST'):
         note = Note()
         form = NoteForm(request.POST, instance=note)
+
         if form.is_valid():
             # if note get the authorID then set the ID is -1. because at the
             # first step. we didn't hava build UC system.
@@ -44,12 +46,26 @@ def create(request):
 
             try:
                 note.save()
-                # return redirect(reverse('note.views.view',
-                # args=['id',note.id]))
+                tags = form.cleaned_data["tags"]
+                # TODO: not support chinese character
+                tags = tags.replace(",", '|').replace(
+                    ";", '|').replace(" ", "").replace("||", "|")
+                tagArr = tags.split("|")
+                # 下面虽然实现了tags的插入，但是效率不高
+                # for tag in tagArr:
+                #     tag_record=Tag(tagName=tag,noteID=note.id)
+                #     tag_record.save()
+                # Optimizaition way
+                insert_list = []
+                for tag in tagArr:
+                    # 此处逻辑不严，如果tag为空，还会插入的，这样没有意义
+                    if tag != "":
+                        insert_list.append(Tag(tagName=tag, noteID=note))
+                # print insert_list
+                Tag.objects.bulk_create(insert_list)
+
                 return HttpResponseRedirect('/view?id=' + str(note.id))
-                # return HttpResponse(note.content)
-                # return HttpResponse("data is valid and we store it in the
-                # database. The id of this note is:"+str(note.id))
+
             except Exception, e:
                 # return HttpResponseRedirect('/view?id='+str(note.id
                 return HttpResponse("data is valid and we store it in the database failed. ")
@@ -131,12 +147,14 @@ def update(request):
         else:
             return HttpResponse("data is valid.")
     else:
-    # 首先要获得更新文章的id，这个id要传进来的。        
+        # 首先要获得更新文章的id，这个id要传进来的。
         form = NoteForm(instance=note)
-        return render(request, 'update.html', {'form': form,'id':note.id})
+        return render(request, 'update.html', {'form': form, 'id': note.id})
     # 这个时候 基本上实现了update的进入操作，但是更新完文章，要保存。下一步要实现保存
 
 # 删除一篇文章
+
+
 def delete(request):
     id = request.GET.get('id', '0')
     note = get_object_or_404(Note, pk=id)

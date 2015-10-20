@@ -28,3 +28,8 @@ class User(models.Model):
 class NoteAuthor(models.Model):
     userID = models.ForeignKey(User)
     noteID = models.ForeignKey(Note)
+
+
+class Tag(models.Model):
+    tagName = models.CharField(max_length=20)
+    noteID = models.ForeignKey(Note)
