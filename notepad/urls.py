@@ -36,6 +36,4 @@ urlpatterns = [
     url(r'^view/', 'note.views.view', name='noteView'),
     url(r'^update', 'note.views.update', name='noteUpdate'),
     url(r'^delete', 'note.views.delete', name='noteDelete'),
-
-    url(r'^md/$', 'note.views.md', name='mk'),
 ]

@@ -32,6 +32,11 @@
                 {{note.content}}
                 </textarea>
             </div>
+            <ul class="tags">
+                {% for tag in tags %}
+                    <li class="label label-Success"> {{ tag.tagName }} </li>
+                {% endfor %}
+            </ul>
         </div>
         <!-- <script src="js/zepto.min.js"></script>
         <script>        

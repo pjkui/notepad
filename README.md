@@ -21,6 +21,7 @@ https://github.com/racaljk/hosts/blob/master/hosts
 1. 如何修改，编辑之前的笔记 √
 2. 如何删除发表的笔记 √
 3. index如何编写，怎么用Django实现分页。√
+
 #2015年10月21日00:08:16
 1.下载了一些乱七八糟的东西
 2.Tag模型和笔记form的关联
@@ -28,14 +29,32 @@ https://github.com/racaljk/hosts/blob/master/hosts
 4.数据库保存小优化，用批量插入代替for分别一个一个的插入
 
 
-#下次直播：
+#2015年10月22日00:40:41
 1.笔记界面显示和tags关联。
-2.Tag和Note关联增删改查
+    显示关联的tags标签已经成功了。
+2. 和Note笔记相关的Tags标签修改。有时候我们会修改一个文章的关键字，这时候会造成关联这个文章的Tag的增删操作。
+    比如： A笔记有标签tag1,tag2,tag3.
+    如果删除了 tag3， 那么就剩下tag1 and tag2.此时Tags表就要执行删除操作
+    如果 A笔记增加了标签tag4, 那么新的标签就是tag1,tag2,tag4. 此时需要在Tag表上增加一个tag4操作。
 
+    tag1,tag2,tag3 ==> tag1,tag2,tag4
+    Tag表需要做两次操作，第一是删除tag3，第二步增加tag4
+    如果原来表中有N个标签，修改有M个标签，Tags表改怎么做？
+
+    [Notice] 在views中初始化form中的值：
+    `form.fields["tags"].initial = tags_str`
+
+2.Tag和Note关联增删改查
+    实现了Tags的更新，批量的增删 √
+
+
+明天见！ 晚安 亲们
 #TODO
 1. 用户注册
 2. 用户管理
 3. 用户角色及授权
+4. 如果文章删除了，需要删除该文章关联的所有tags
+
 
 
 #本源代码技术交流QQ群：196154886

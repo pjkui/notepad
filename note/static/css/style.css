@@ -101,15 +101,31 @@ body {
     margin-right: 20px;
     display: inline;
 }
+
 .keyword{
     padding-top: 0px;
     padding-bottom: 10px;
 }
+
 .keyword label{
     width:60px;
     text-align: left;
     color: red;
 }
+
 .keyword input{
     width: 60%;
+}
+
+.tags span{
+    color: white;
+    border-radius: 2px;
+    border-width: 1px;
+    border-color: blue;
+    border-style: solid;
+    background: #5cb85c;
+    margin: 6px;
+    margin-left: 6px;
+    margin-right: 6px;
+    height: 26px;
 }

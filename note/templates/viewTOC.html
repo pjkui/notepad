@@ -70,6 +70,11 @@
                 {{ note.content }}
                 </textarea>          
             </div>
+            <div class="tags">
+                {% for tag in tags %}
+                    <span> {{ tag.tagName }} </span>
+                {% endfor %}
+            </div>
         </div>
         <!-- <script src="js/zepto.min.js"></script>
 		<script>		

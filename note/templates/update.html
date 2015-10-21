@@ -81,18 +81,23 @@
                 <div id="test-editormd">
                     {{form.content}}
                 </div>
+                <div class="keyword" width="90%" style="margin:0 auto; width:90%; color:red;">
+                    <label>关键字:</label>
+                    {{form.tags}}
+                    {{tags_str}}
+                </div>
             </form>
         </div>        
         <script src= {% static "examples/js/jquery.min.js" %}></script>
         <script src={% static "editormd.js" %}></script>   
         <script type="text/javascript">
             $(function() {
-                $.get("/static/examples/test.md", function(md) {
+               
                     var testEditor = editormd("test-editormd", {
                         width  : "90%",
                         height : 640,
                         path   : "{% static 'lib/'' %}",
-                        appendMarkdown : md,
+                       
                         saveHTMLToTextarea : true,
                         codeFold : true,
                         //syncScrolling : false,
@@ -117,8 +122,6 @@
                         imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                         imageUploadURL : "./image/upload",
                     });
-                });
-
             });
         </script>
     </body>
