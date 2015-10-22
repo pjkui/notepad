@@ -63,19 +63,39 @@
 <ol>
 <li>如何修改，编辑之前的笔记 √</li>
 <li>如何删除发表的笔记 √</li>
-<li>index如何编写，怎么用Django实现分页。√
-#2015年10月21日00:08:16
-1.下载了一些乱七八糟的东西
-2.Tag模型和笔记form的关联
-3.form model添加自定义字段
-4.数据库保存小优化，用批量插入代替for分别一个一个的插入</li>
+<li>index如何编写，怎么用Django实现分页。√</li>
 </ol>
 
 <h1>
-<a id="下次直播" class="anchor" href="#%E4%B8%8B%E6%AC%A1%E7%9B%B4%E6%92%AD" aria-hidden="true"><span class="octicon octicon-link"></span></a>下次直播：</h1>
+<a id="2015年10月21日000816" class="anchor" href="#2015%E5%B9%B410%E6%9C%8821%E6%97%A5000816" aria-hidden="true"><span class="octicon octicon-link"></span></a>2015年10月21日00:08:16</h1>
+
+<p>1.下载了一些乱七八糟的东西
+2.Tag模型和笔记form的关联
+3.form model添加自定义字段
+4.数据库保存小优化，用批量插入代替for分别一个一个的插入</p>
+
+<h1>
+<a id="2015年10月22日004041" class="anchor" href="#2015%E5%B9%B410%E6%9C%8822%E6%97%A5004041" aria-hidden="true"><span class="octicon octicon-link"></span></a>2015年10月22日00:40:41</h1>
 
 <p>1.笔记界面显示和tags关联。
-2.Tag和Note关联增删改查</p>
+    显示关联的tags标签已经成功了。
+2. 和Note笔记相关的Tags标签修改。有时候我们会修改一个文章的关键字，这时候会造成关联这个文章的Tag的增删操作。
+    比如： A笔记有标签tag1,tag2,tag3.
+    如果删除了 tag3， 那么就剩下tag1 and tag2.此时Tags表就要执行删除操作
+    如果 A笔记增加了标签tag4, 那么新的标签就是tag1,tag2,tag4. 此时需要在Tag表上增加一个tag4操作。</p>
+
+<pre><code>tag1,tag2,tag3 ==&gt; tag1,tag2,tag4
+Tag表需要做两次操作，第一是删除tag3，第二步增加tag4
+如果原来表中有N个标签，修改有M个标签，Tags表改怎么做？
+
+[Notice] 在views中初始化form中的值：
+`form.fields["tags"].initial = tags_str`
+</code></pre>
+
+<p>2.Tag和Note关联增删改查
+    实现了Tags的更新，批量的增删 √</p>
+
+<p>明天见！ 晚安 亲们</p>
 
 <h1>
 <a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h1>
@@ -84,6 +104,7 @@
 <li>用户注册</li>
 <li>用户管理</li>
 <li>用户角色及授权</li>
+<li>如果文章删除了，需要删除该文章关联的所有tags</li>
 </ol>
 
 <h1>
